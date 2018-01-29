@@ -1,0 +1,18 @@
+nginx_proxy:
+  image: jwilder/nginx-proxy
+  volumes:
+    - /var/lib/docker/volumes/_data/nginx/vhost.d/:/etc/nginx/vhost.d:ro
+    - /var/lib/docker/volumes/_data/nginx/certs/:/etc/nginx/certs
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - /usr/share/nginx/html
+  environment:
+    - DEFAULT_HOST=icui.ufpa.br
+  restart: always
+nginx_letsencrypt:
+  image: jrcs/letsencrypt-nginx-proxy-companion
+  volumes:
+    - /var/lib/docker/volumes/_data/nginx/vhost.d/:/etc/nginx/vhost.d:rw
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+  environment:
+    - DEFAULT_HOST=icui.ufpa.br
+  restart: always

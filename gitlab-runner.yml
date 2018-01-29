@@ -1,0 +1,6 @@
+gitlab-runner:
+  image: gitlab/gitlab-runner:latest
+  volumes:
+    - /var/docker/volumes/_data/gitlab-runner/config:/etc/gitlab-runner
+    - /var/run/docker.sock:/var/run/docker.sock 
+  restart: always

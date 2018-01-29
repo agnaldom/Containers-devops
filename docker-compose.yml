@@ -1,0 +1,49 @@
+postgres:
+  extends:
+    file: dbs.yml
+    service: postgresql
+  environment:
+    DB_USER: gitlab
+    DB_PASS: password
+    DB_NAME: gitlab
+    DB_EXTENSION: pg_trgm
+    # POSTGRES_USER: gitlab
+    # POSTGRES_PASSWORD: password
+    # POSTGRES_DB: gitlab
+    # LANG: en_US.UTF-8
+    # LC_TYPE: en_US.UTF-8
+redis:
+  extends:
+    file: dbs.yml
+    service: redis
+nginx_proxy:
+  extends:
+    file: nginx.yml
+    service: nginx_proxy
+  ports:
+    - "80:80"
+    - "443:443"
+nginx_letsencrypt:
+  extends:
+    file: nginx.yml
+    service: nginx_letsencrypt
+  volumes_from:
+    - nginx_proxy
+gitlab:
+  extends:
+    file: gitlab.yml
+    service: gitlab
+  links:
+    - redis:redis
+    - postgres:postgresql
+#    - registry:registry
+  ports:
+    - "10080:80"
+    - "10443:443"
+    - "2222:22"
+# registry:
+#  extends:
+#    file: registry.yml
+#    service: registry
+#  ports:
+#    - "5000:5000"

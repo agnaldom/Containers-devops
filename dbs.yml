@@ -1,0 +1,11 @@
+postgresql:
+  # image: postgres:latest
+  image: sameersbn/postgresql:9.6-2
+  volumes:
+    - /var/lib/docker/volumes/_data/postgresql/data:/var/lib/postgresql/data
+  restart: always
+redis:
+  image: redis:latest
+  volumes:
+    - /var/lib/docker/volumes/_data/redis:/var/lib/redis
+  restart: always

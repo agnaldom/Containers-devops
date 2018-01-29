@@ -1,0 +1,59 @@
+version: 0.1
+log:
+  accesslog:
+    disabled: true
+  level: debug
+  formatter: text
+  fields:
+    service: registry
+    environment: staging
+  hooks:
+    - type: mail
+      disabled: true
+      levels:
+        - panic
+      options:
+        smtp:
+          addr: mail.example.com:25
+          username: mailuser
+          password: password
+          insecure: true
+        from: sender@example.com
+        to:
+          - errors@example.com
+loglevel: debug # deprecated: use "log"
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+    maxthreads: 100
+http:
+  addr: 0.0.0.0:5000
+  prefix: /my/nested/registry/
+  host: https://registry.gitlab.ufpa.br:5000
+  secret: asecretforlocaldevelopment
+  relativeurls: false
+  tls:
+    certificate: /certs/registry.crt
+    key: /certs/registry.key
+    clientcas:
+      - /certs/registry.crt
+    letsencrypt:
+      cachefile: /etc/docker/registry/letsencrypt.json
+      email: agnaldoneto@ufpa.br
+  debug:
+    addr: localhost:5001
+  headers:
+    X-Content-Type-Options: [nosniff]
+  http2:
+    disabled: false
+redis:
+  addr: localhost:6379
+  password: asecret
+  db: 0
+  dialtimeout: 10ms
+  readtimeout: 10ms
+  writetimeout: 10ms
+  pool:
+    maxidle: 16
+    maxactive: 64
+    idletimeout: 300s
